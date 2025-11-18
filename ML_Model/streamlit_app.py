@@ -22,7 +22,7 @@ st.markdown("Enter the clinical data below to generate a prediction.")
 def load_model():
     try:
         # Ensure 'demenia prediction.sav' is in the same folder
-        return pickle.load(open("../demenia prediction.sav", "rb"))
+        return pickle.load(open("./demenia prediction.sav", "rb"))
     except FileNotFoundError:
         st.error("Model file not found! Please make sure 'demenia prediction.sav' is in the folder.")
         return None
@@ -134,4 +134,5 @@ if submit_button and model:
             
     except Exception as e:
         st.error(f"Error during prediction: {e}")
+
 
