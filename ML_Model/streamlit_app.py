@@ -15,15 +15,19 @@ st.write("Files in Directory:", os.listdir())
 
 # --- 2. LOAD THE MODEL ---
 @st.cache_resource
-@st.cache_resource
 def load_model():
-    try:
-        # THIS MUST BE THE CORRECT, COMPLETE PATH
-        return pickle.load(open("ML_Model/demenia prediction.sav", "rb"))
+    # Define the full path using Pathlib, which is robust to spaces and OS differences
+    MODEL_PATH = Path("ML_Model") / "demenia prediction.sav"
+    
+    st.write(f"Attempting to load model from: {MODEL_PATH}") # DEBUG: Print the path being used
 
+    try:
+        # We convert the Path object back to a string for the open() function
+        with open(MODEL_PATH.resolve(), "rb") as f:
+            return pickle.load(f)
+            
     except FileNotFoundError:
-        # If it fails now, this new custom message will appear.
-        st.error("Model file not found! Check GitHub for file name or capitalization.")
+        st.error(f"FATAL ERROR: Model file not found. Expected location: {MODEL_PATH}")
         return None
 # THIS LINE IS EXECUTED IMMEDIATELY WHEN THE SCRIPT STARTS
 model = load_model()
@@ -155,6 +159,7 @@ if submit_button and model:
     except Exception as e:
 
         st.error(f"Error during prediction: {e}")
+
 
 
 
