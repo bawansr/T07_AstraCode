@@ -17,12 +17,13 @@ st.write("Files in Directory:", os.listdir())
 @st.cache_resource
 def load_model():
     try:
-        # CHECK THIS LINE! It MUST match the file list exactly.
-        return pickle.load(open("model.sav", "rb"))
+        # **FINAL FIX:** Using the full path (T07_AstraCode/ML_Model/) and the exact filename with spaces.
+        # Python handles the spaces in the filename inside the quotes "..."
+        return pickle.load(open("T07_AstraCode/ML_Model/demenia prediction.sav", "rb"))
+        
     except FileNotFoundError:
-        st.error("Model file not found! Please make sure 'model.sav' is in the folder.")
+        st.error("Model file not found! Please ensure the file is at the correct path: T07_AstraCode/ML_Model/demenia prediction.sav")
         return None
-
 # --- 1. APP CONFIGURATION ---
 st.set_page_config(page_title="Dementia Prediction AI", layout="wide")
 
@@ -150,4 +151,5 @@ if submit_button and model:
     except Exception as e:
 
         st.error(f"Error during prediction: {e}")
+
 
