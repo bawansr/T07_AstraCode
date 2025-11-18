@@ -32,12 +32,14 @@ st.markdown("Enter the clinical data below to generate a prediction.")
 # --- 2. LOAD THE MODEL ---
 # We use cache_resource so we don't reload the model on every interaction
 @st.cache_resource
+@st.cache_resource
 def load_model():
     try:
-        # Ensure 'demenia prediction.sav' is in the same folder
-        return pickle.load(open("demenia prediction.sav", "rb"))
+        # **CHANGE THIS LINE** - We are now looking inside the ML_Model folder
+        return pickle.load(open("ML_Model/model.sav", "rb"))
+        
     except FileNotFoundError:
-        st.error("Model file not found! Please make sure 'demenia prediction.sav' is in the folder.")
+        st.error("Model file not found! Please make sure 'model.sav' is inside the 'ML_Model' subfolder.")
         return None
 
 model = load_model()
@@ -148,3 +150,4 @@ if submit_button and model:
     except Exception as e:
 
         st.error(f"Error during prediction: {e}")
+
