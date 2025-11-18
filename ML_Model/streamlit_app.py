@@ -4,11 +4,24 @@ Created on Tue Nov 18 21:33:18 2025
 
 @author: VISTA
 """
-
+import os
 import streamlit as st
 import pandas as pd
 import pickle
 import numpy as np
+
+st.write("Current Working Directory:", os.getcwd())
+st.write("Files in Directory:", os.listdir()) 
+
+# --- 2. LOAD THE MODEL ---
+@st.cache_resource
+def load_model():
+    try:
+        # CHECK THIS LINE! It MUST match the file list exactly.
+        return pickle.load(open("model.sav", "rb"))
+    except FileNotFoundError:
+        st.error("Model file not found! Please make sure 'model.sav' is in the folder.")
+        return None
 
 # --- 1. APP CONFIGURATION ---
 st.set_page_config(page_title="Dementia Prediction AI", layout="wide")
@@ -133,4 +146,5 @@ if submit_button and model:
             st.balloons()
             
     except Exception as e:
+
         st.error(f"Error during prediction: {e}")
