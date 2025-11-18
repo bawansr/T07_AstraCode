@@ -15,15 +15,19 @@ st.write("Files in Directory:", os.listdir())
 
 # --- 2. LOAD THE MODEL ---
 @st.cache_resource
+@st.cache_resource
 def load_model():
     try:
-        # **FINAL FIX:** Using the full path (T07_AstraCode/ML_Model/) and the exact filename with spaces.
-        # Python handles the spaces in the filename inside the quotes "..."
-        return pickle.load(open("T07_AstraCode/ML_Model/demenia prediction.sav", "rb"))
-        
+        # THIS MUST BE THE CORRECT, COMPLETE PATH
+        return pickle.load(open("ML_Model/demenia prediction.sav", "rb"))
+
     except FileNotFoundError:
-        st.error("Model file not found! Please ensure the file is at the correct path: T07_AstraCode/ML_Model/demenia prediction.sav")
+        # If it fails now, this new custom message will appear.
+        st.error("Model file not found! Check GitHub for file name or capitalization.")
         return None
+# THIS LINE IS EXECUTED IMMEDIATELY WHEN THE SCRIPT STARTS
+model = load_model()
+
 # --- 1. APP CONFIGURATION ---
 st.set_page_config(page_title="Dementia Prediction AI", layout="wide")
 
@@ -151,5 +155,6 @@ if submit_button and model:
     except Exception as e:
 
         st.error(f"Error during prediction: {e}")
+
 
 
